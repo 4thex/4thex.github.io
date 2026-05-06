@@ -31,8 +31,14 @@ const scan = async () => {
     await ndef.scan({signal});
     console.log('Scan started');
     ndef.onreading = async event => {
-        const message = event.message;
         console.log(`serialNumber: ${event.serialNumber}`);
         aborter.abort();
+        const message = event.message;
+        const records = message.records;
+        records.forEach(record => {
+            console.log('***');
+            console.log(`\trecordType: ${record.recordType}`);
+            console.log(`\mediaType: ${record.mediaType}`);
+        });
     };
 };
