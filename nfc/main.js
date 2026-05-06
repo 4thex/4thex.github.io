@@ -13,9 +13,9 @@ const scan = async () => {
     }
 
     const ndef = new NDEFReader();
-    const reader = await ndef.scan();
+    await ndef.scan();
     console.log('Scan started');
-    reader.onreading = async event => {
+    ndef.onreading = async event => {
         const message = event.message;
         console.log(`serialNumber: ${event.serialNumber}`);
     };
