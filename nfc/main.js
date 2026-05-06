@@ -1,3 +1,7 @@
+const scanButton = document.querySelector('#scanButton');
+scanButton.addEventListener('click', async () => {
+    await scan();
+});
 const scan = async () => {
     if(!NDEFReader) {
         console.error('No Web NFC API support');
@@ -7,4 +11,3 @@ const scan = async () => {
     const reader = await ndef.scan();
     console.log('Scan started');
 };
-export {scan};
