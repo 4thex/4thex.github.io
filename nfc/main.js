@@ -1,6 +1,5 @@
 if(!NDEFReader) {
-    console.error('No NFC Web API support');
-    return;
+    console.error('No Web NFC API support');
 }
 
 const ndef = new NDEFReader();
