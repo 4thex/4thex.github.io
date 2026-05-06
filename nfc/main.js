@@ -28,7 +28,11 @@ const scan = async () => {
     const aborter = controller();
     const signal = aborter.signal;
     const ndef = new NDEFReader();
-    await ndef.scan({signal});
+    try {
+        await ndef.scan({signal});
+    } catch (error) {
+        console.info(error);
+    }
     console.log('Scan started');
     ndef.onreading = async event => {
         console.log(`serialNumber: ${event.serialNumber}`);
