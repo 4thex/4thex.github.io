@@ -25,5 +25,6 @@ const scan = async () => {
     ndef.onreading = async event => {
         const message = event.message;
         console.log(`serialNumber: ${event.serialNumber}`);
+        aborter.abort();
     };
 };
