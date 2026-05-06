@@ -18,7 +18,7 @@ const controller = () => {
     instance.signal.onabort = () => {
         state.active = false;
     };
-    windows.setTimeout(() => {
+    window.setTimeout(() => {
         instance.abort();
     }, 5000);
     return instance;
