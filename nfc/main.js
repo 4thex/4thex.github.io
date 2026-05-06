@@ -1,4 +1,4 @@
-const scan = () => {
+const scan = async () => {
     if(!NDEFReader) {
         console.error('No Web NFC API support');
     }
