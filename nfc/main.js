@@ -18,6 +18,9 @@ const controller = () => {
     instance.signal.onabort = () => {
         state.active = false;
     };
+    windows.setTimeout(() => {
+        instance.abort();
+    }, 5000);
     return instance;
 };
 const scan = async () => {
