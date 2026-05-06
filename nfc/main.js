@@ -1,19 +1,26 @@
 import styles from './styles.css' with { type: 'css' };
 document.adoptedStyleSheets = [ styles ];
+if(!NDEFReader) {
+    throw new Error('No Web NFC API support');
+}
+
 const scanButton = document.querySelector('#scanButton');
-// scanButton.addEventListener('click', async () => {
-//     await scan();
-// });
+const state = {
+    set active(value) {
+        scanButton.disabled = value;
+    }
+};
 scanButton.onclick = async () => {
     await scan();
 };
+const aborter = new AbortController();
+aborter.signal.onabort = () => {
+    state.active = false;
+};
 const scan = async () => {
-    if(!NDEFReader) {
-        console.error('No Web NFC API support');
-    }
-
+    state.active = true;
     const ndef = new NDEFReader();
-    await ndef.scan();
+    await ndef.scan({signal: aborter.signal});
     console.log('Scan started');
     ndef.onreading = async event => {
         const message = event.message;
