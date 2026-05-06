@@ -13,18 +13,21 @@ const state = {
 scanButton.onclick = async () => {
     await scan();
 };
-const aborter = new AbortController();
-aborter.signal.onabort = () => {
-    state.active = false;
+const controller = () => {
+    const instance = new AbortController();
+    instance.signal.onabort = () => {
+        state.active = false;
+    };
 };
 const scan = async () => {
     state.active = true;
+    const signal = controller().signal;
     const ndef = new NDEFReader();
-    await ndef.scan({signal: aborter.signal});
+    await ndef.scan({signal});
     console.log('Scan started');
     ndef.onreading = async event => {
         const message = event.message;
         console.log(`serialNumber: ${event.serialNumber}`);
-        aborter.abort();
+        controller.abort();
     };
 };
