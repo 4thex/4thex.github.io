@@ -22,13 +22,14 @@ const controller = () => {
 };
 const scan = async () => {
     state.active = true;
-    const signal = controller().signal;
+    const aborter = controller();
+    const signal = aborter.signal;
     const ndef = new NDEFReader();
     await ndef.scan({signal});
     console.log('Scan started');
     ndef.onreading = async event => {
         const message = event.message;
         console.log(`serialNumber: ${event.serialNumber}`);
-        controller.abort();
+        aborter.abort();
     };
 };
