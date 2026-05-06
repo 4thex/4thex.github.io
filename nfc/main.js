@@ -18,6 +18,7 @@ const controller = () => {
     instance.signal.onabort = () => {
         state.active = false;
     };
+    return instance;
 };
 const scan = async () => {
     state.active = true;
