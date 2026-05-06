@@ -1,4 +1,4 @@
-import styles from 'styles.css' with { type: 'css' };
+import styles from './styles.css' with { type: 'css' };
 document.adoptedStyleSheets = [ styles ];
 const scanButton = document.querySelector('#scanButton');
 // scanButton.addEventListener('click', async () => {
