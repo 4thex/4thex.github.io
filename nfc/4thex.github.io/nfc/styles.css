@@ -1,0 +1,10 @@
+div {
+    display: flex;
+    justify-content: center;
+}
+button {
+    cursor: pointer;
+    min-height: 25dvh;
+    min-width: 50dvw;
+    font-size: 5dvw;
+}
