@@ -20,7 +20,7 @@ const controller = () => {
     };
     window.setTimeout(() => {
         instance.abort();
-    }, 5000);
+    }, 15000);
     return instance;
 };
 const scan = async (options) => {
@@ -51,10 +51,10 @@ const scan = async (options) => {
                 let text = new TextDecoder().decode(record.data);
                 console.log(`\tdata: ${text}`);
                 return;
-            // } else if(record.recordType == 'url') {
-            //     let text = new TextDecoder().decode(record.data);
-            //     console.log(`\tdata: ${text}`);
-            //     return;
+            } else if(record.recordType == 'url') {
+                let text = new TextDecoder().decode(record.data);
+                console.log(`\tdata: ${text}`);
+                return;
             }
             console.log(`\tmediaType: ${record.mediaType}`);
             console.log(`\tdata: ${record.data}`);
@@ -80,18 +80,31 @@ const scan = async (options) => {
             combinedArray.set(mailtoHeaderArray, 0);
             combinedArray.set(mailtoTextArray, 1);
             let mailto = new DataView(combinedArray.buffer);
+            // The phone reacts to the first tag
             ndef.write({
                 records: [
-                {
-                    recordType: "absolute-url",
-                    encoding: "utf-8",
-                    data: "https://4thex.com"
-                },
-                // {
-                //     recordType: "url",
-                //     data: mailto
-                // }
-            ]}, {
+                    // Geo tag
+                    {
+                        recordType: "url",
+                        data: 'geo:39.7538856,-75.5580199'
+                    },
+                    // Make phone call
+                    {
+                        recordType: "url",
+                        data: 'tel:+12018784072'
+                    },
+                    // Send email
+                    {
+                        recordType: "url",
+                        data: 'mailto:info@4thex.com'
+                    },
+                    // Browse to web page
+                    {
+                        recordType: "absolute-url",
+                        encoding: "utf-8",
+                        data: "https://4thex.com"
+                    },
+                ]}, {
                 overwrite: true
             });
         }
