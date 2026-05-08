@@ -6,6 +6,6 @@ if(!('NDEFReader' in window)) {
     document.body = errorElement;
     throw new Error(errorText);
 }
-import('./styles.css', {with: { type: 'css' }});
-document.adoptedStyleSheets = [ styles ];
+const styles = await import('./styles.css', {with: { type: 'css' }});
+document.adoptedStyleSheets = [ styles.default ];
 import('./scan.js');

@@ -51,6 +51,10 @@ const scan = async (options) => {
                 let text = new TextDecoder().decode(record.data);
                 console.log(`\tdata: ${text}`);
                 return;
+            // } else if(record.recordType == 'url') {
+            //     let text = new TextDecoder().decode(record.data);
+            //     console.log(`\tdata: ${text}`);
+            //     return;
             }
             console.log(`\tmediaType: ${record.mediaType}`);
             console.log(`\tdata: ${record.data}`);
@@ -70,12 +74,23 @@ const scan = async (options) => {
             }
         });
         if(options.write) {
+            let mailtoHeaderArray = new Uint8Array([6]);
+            let mailtoTextArray = new TextEncoder().encode('info@4thex.com');
+            let combinedArray = new Uint8Array(mailtoTextArray.length+1);
+            combinedArray.set(mailtoHeaderArray, 0);
+            combinedArray.set(mailtoTextArray, 1);
+            let mailto = new DataView(combinedArray.buffer);
             ndef.write({
                 records: [
                 {
-                    data: "https://4thex.com",
-                    recordType: "absolute-url"
-                }
+                    recordType: "absolute-url",
+                    encoding: "utf-8",
+                    data: "https://4thex.com"
+                },
+                // {
+                //     recordType: "url",
+                //     data: mailto
+                // }
             ]}, {
                 overwrite: true
             });
