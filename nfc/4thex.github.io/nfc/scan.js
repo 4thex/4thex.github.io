@@ -20,7 +20,7 @@ const controller = () => {
     };
     window.setTimeout(() => {
         instance.abort();
-    }, 15000);
+    }, 5000);
     return instance;
 };
 const scan = async (options) => {
@@ -74,12 +74,12 @@ const scan = async (options) => {
             }
         });
         if(options.write) {
-            let mailtoHeaderArray = new Uint8Array([6]);
-            let mailtoTextArray = new TextEncoder().encode('info@4thex.com');
-            let combinedArray = new Uint8Array(mailtoTextArray.length+1);
-            combinedArray.set(mailtoHeaderArray, 0);
-            combinedArray.set(mailtoTextArray, 1);
-            let mailto = new DataView(combinedArray.buffer);
+            let mailto = new DataView(Uint8Array.from([0x6, ...new TextEncoder().encode('info@4thex.com')]).buffer);
+            let mailtoRecord = {
+                recordType: "mime",
+
+                data: mailto
+            };
             // The phone reacts to the first tag
             ndef.write({
                 records: [
@@ -94,10 +94,11 @@ const scan = async (options) => {
                         data: 'tel:+12018784072'
                     },
                     // Send email
-                    {
-                        recordType: "url",
-                        data: 'mailto:info@4thex.com'
-                    },
+                    // {
+                    //     recordType: "url",
+                    //     data: 'mailto:info@4thex.com'
+                    // },
+                    mailtoRecord,
                     // Browse to web page
                     {
                         recordType: "absolute-url",

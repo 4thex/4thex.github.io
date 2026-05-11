@@ -9,3 +9,4 @@ if(!('NDEFReader' in window)) {
 const styles = await import('./styles.css', {with: { type: 'css' }});
 document.adoptedStyleSheets = [ styles.default ];
 import('./scan.js');
+
